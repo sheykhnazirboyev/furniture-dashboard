@@ -1,7 +1,8 @@
+import { DatePicker } from 'antd';
 
 function App() {
 
-  return <>Furnitre</>;
+  return  <DatePicker />;
 }
 
 export default App;
