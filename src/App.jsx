@@ -1,18 +1,20 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Register from "./pages/Register";
 import GeneralLayout from "./pages/GeneralLayout";
 import CategoryPage from "./pages/CategoryPage";
+import Register from "./pages/Auth/Register";
+import Login from "./pages/Auth/Login";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<GeneralLayout />} >
+        <Route path="/" element={<GeneralLayout />}>
           <Route index element={<Home />} />
           <Route path="/category" element={<CategoryPage />} />
         </Route>
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
