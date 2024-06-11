@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import GeneralLayout from "./pages/GeneralLayout";
-import CategoryPage from "./pages/CategoryPage";
+import CategoryPage from "./pages/Categories/CategoryPage";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 
@@ -11,7 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<GeneralLayout />}>
           <Route index element={<Home />} />
-          <Route path="/category" element={<CategoryPage />} />
+          <Route path="/categories" element={<CategoryPage />} />
+          <Route path="/products" />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
