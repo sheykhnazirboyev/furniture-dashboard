@@ -4,6 +4,7 @@ import GeneralLayout from "./pages/GeneralLayout";
 import CategoryPage from "./pages/Categories/CategoryPage";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
+import ProductPage from "./pages/ProductPage";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <Route path="/" element={<GeneralLayout />}>
           <Route index element={<Home />} />
           <Route path="/categories" element={<CategoryPage />} />
-          <Route path="/products" />
+          <Route path="/products" element={<ProductPage />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
