@@ -1,14 +1,14 @@
 import { Button } from "antd";
 import { deleteProduct } from "../api";
 
-function DeleteProduct({ productId }) {
+function DeleteProduct({ productId, refetchProducts }) {
 
   const handleDelete = async () => {
     const isAgree = confirm("Are you agree to delete product");
     if (isAgree) {
       const response = await deleteProduct(productId);
       if (response) {
-        alert("Product Deleted");
+        refetchProducts();
       }
     }
   };

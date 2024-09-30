@@ -1,6 +1,8 @@
 import { Card, Flex, Input, Typography } from "antd";
 import styles from "./styles.module.css";
 import { useForm, Controller } from "react-hook-form";
+import { registerUser } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 const { Text } = Typography;
 
@@ -10,9 +12,13 @@ function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const response = await registerUser(data);
+    if(response) {
+      navigate("/login")
+    }
   };
 
   return (
@@ -20,7 +26,7 @@ function Register() {
       <Card hoverable title="Register" bordered={false} style={{ width: 300 }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex vertical gap={10}>
-            {/* Name uchun input */}
+            
             <div>
               <Controller
                 name="name"
@@ -36,7 +42,6 @@ function Register() {
               />
               {errors.name && <Text type="danger">{errors.name.message}</Text>}
             </div>
-            {/* Email uchun input */}
             <div>
               <Controller
                 name="email"
@@ -50,7 +55,7 @@ function Register() {
                 <Text type="danger">{errors.email.message}</Text>
               )}
             </div>
-            {/* Password uchun input */}
+           
             <div>
               <Controller
                 name="password"
@@ -65,7 +70,7 @@ function Register() {
               )}
             </div>
             <div>
-              <button type="submit">Send</button>
+              <button className={styles.button} type="submit">Send</button>
             </div>
           </Flex>
         </form>

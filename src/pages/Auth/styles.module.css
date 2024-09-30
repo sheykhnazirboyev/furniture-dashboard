@@ -6,3 +6,12 @@
     justify-content: center;
     align-items: center;
 }
+
+.button {
+    padding: 10px;
+    background-color: cornflowerblue;
+    border: none;
+    outline: none;
+    color: white;
+    border-radius: 3px;
+}

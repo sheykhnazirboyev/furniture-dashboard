@@ -6,19 +6,17 @@ import {
   Input,
   InputNumber,
   Modal,
-  Popconfirm,
   Table,
   Typography,
 } from "antd";
 import axios from "axios";
+import { createCategory, deleteCategory, editCategory, fetchCategories } from "../../api";
 
 const EditableCell = ({
   editing,
   dataIndex,
   title,
   inputType,
-  record,
-  index,
   children,
   ...restProps
 }) => {
@@ -51,29 +49,19 @@ const CategoryPage = () => {
   const [data, setData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
 
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/categories`
-        );
-        setData(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  const refetchCatgories = async () => {
+    const data = await fetchCategories();
+    setData(data);
+  };
 
-    getCategories();
+  useEffect(() => {
+    refetchCatgories();
   }, []);
 
   const handleDelete = async (id) => {
-    try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/categories/${id}`
-      );
-      console.log(response);
-    } catch (err) {
-      console.log(err);
+    const response = await deleteCategory(id);
+    if(response) {
+      refetchCatgories();
     }
   };
 
@@ -86,19 +74,13 @@ const CategoryPage = () => {
 
   const handleOk = async () => {
     setIsModalOpen(false);
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/categories/${
-          selectedCategory._id
-        }`,
-        {
-          name: selectedCategory.name,
-          image: selectedCategory.image,
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    const newValues = {
+      name: selectedCategory.name,
+      image: selectedCategory.image,
+    };
+    const response = await editCategory(selectedCategory._id, newValues);
+    if(response) {
+      refetchCatgories();
     }
   };
 
@@ -123,18 +105,13 @@ const CategoryPage = () => {
   };
 
   const handleCreateModalOk = async () => {
-    console.log(newCategory);
     if (newCategory.name || newCategory.image) return;
-    const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/api/categories`,
-      {
-        ...newCategory,
-      }
-    );
-    if(response) {
+    
+    const response = await createCategory(newCategory);
+    if (response) {
       setIsCreateModalOpen(false);
+      refetchCatgories();
     }
-    console.log(response)
   };
 
   const handleCreateModalCancel = () => {

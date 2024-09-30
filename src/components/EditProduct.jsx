@@ -3,7 +3,7 @@ import { useState } from "react";
 import ProductForm from "./ProductForm";
 import { createProduct, editProduct, getProductById } from "../api";
 
-function EditProduct({ productId }) {
+function EditProduct({ productId, refetchProducts }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [singleProduct, setSingleProduct] = useState(null);
 
@@ -21,9 +21,9 @@ function EditProduct({ productId }) {
     const { _id, __v, ...product } = productForm;
     const resonse = await editProduct(product, productId);
     if (resonse) {
-      alert("Sucuessfully Edited");
+      refetchProducts();
+      handleOk();
     }
-    handleOk();
   };
 
   const handleCancel = () => {

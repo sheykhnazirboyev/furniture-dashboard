@@ -1,40 +1,65 @@
-import { useState } from 'react';
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-} from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { Outlet } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { PieChartOutlined } from "@ant-design/icons";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 const { Header, Content, Footer, Sider } = Layout;
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
-}
-const items = [
-  getItem('Home', '1', <PieChartOutlined />),
-  getItem('Categories', '2', <DesktopOutlined />),
-  getItem('Products', '3', <DesktopOutlined />),
-  getItem('Files', '9', <FileOutlined />),
+
+const menuItems = [
+  {
+    key: "/",
+    label: <Link to="/">Home</Link>,
+    icon: <PieChartOutlined />,
+  },
+  {
+    key: "/categories",
+    label: <Link to="/categories">Categories</Link>,
+    icon: <PieChartOutlined />,
+  },
+  {
+    key: "/products",
+    label: <Link to="/products">Products</Link>,
+    icon: <PieChartOutlined />,
+  },
+  {
+    key: "/register",
+    label: <Link to="/register">Register</Link>,
+    icon: <PieChartOutlined />,
+  }
 ];
+
 const GeneralLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer },
   } = theme.useToken();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  });
+
   return (
     <Layout
       style={{
-        minHeight: '100vh',
+        minHeight: "100vh",
       }}
     >
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+      >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={["/"]}
+          mode="inline"
+          items={menuItems}
+        />
       </Sider>
       <Layout>
         <Header
@@ -45,12 +70,12 @@ const GeneralLayout = () => {
         />
         <Content
           style={{
-            margin: '0 16px',
+            margin: "0 16px",
           }}
         >
           <Breadcrumb
             style={{
-              margin: '16px 0',
+              margin: "16px 0",
             }}
           >
             <Breadcrumb.Item>User</Breadcrumb.Item>
@@ -70,7 +95,7 @@ const GeneralLayout = () => {
         </Content>
         <Footer
           style={{
-            textAlign: 'center',
+            textAlign: "center",
           }}
         >
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
