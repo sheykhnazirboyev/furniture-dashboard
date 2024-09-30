@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = process.env.VITE_BACKEND_URL;
+const url = import.meta.env;
 
 function withHeaders() {
   const token = localStorage.getItem("token");
