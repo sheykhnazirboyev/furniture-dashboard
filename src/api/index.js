@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = process.env.BACKEND_URL;
+const url = import.meta.env.VITE_BACKEND_URL;
 
 function withHeaders() {
   const token = localStorage.getItem("token");
@@ -132,6 +132,20 @@ export async function deleteProduct(producId) {
       url: `${url}/api/products/${producId}`,
       method: "DELETE",
       inclueHeaders: true
+    })
+    return response;
+  } catch (err) {
+    console.error(err);
+  }
+}
+// -------------Auth Routes-------------------//
+
+export async function loginUser(data) {
+  try {
+    const response = await request({
+      url: `${url}/api/auth`,
+      method: "POST",
+      data
     })
     return response;
   } catch (err) {
